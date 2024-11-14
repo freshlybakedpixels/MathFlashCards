@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Addition Flash Card App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Sriracha", cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      background: #d2ff72; 
+    }
+    .question {
+      font-size: 3em;
+      margin-bottom: 20px;
+      font-family: "Sriracha", cursive;
+    }
+    .buttons-container {
+      display: grid;
+      grid-template-columns: repeat(10, 60px);
+      gap: 10px;
+    }
+    button {
+      background-color: #54C392;
+      border: 2px solid #0D7C66;
+      border-radius: 4px;      
+      color: #074538;
+      font-weight: bold;
+      font-size: 1.5em;
+      font-family: "Sriracha", cursive;
+    }
+    .result {
+      font-size: 1.5em;
+      margin-top: 20px;
+      font-family: "Sriracha", cursive;
+    }
+    .next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1em;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="question" id="question">0 + 0 = ?</div>
+
+  <div class="buttons-container" id="buttons-container">
+    <!-- Buttons for numbers 1 to 20 will be added by JavaScript -->
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <button class="next-btn" id="next-btn" onclick="generateQuestion()">Next Question</button>
+
+  <script>
+    let correctAnswer;
+
+    function generateQuestion() {
+      // Reset the result display and hide the Next button
+      document.getElementById("result").textContent = '';
+      document.getElementById("next-btn").style.display = 'none';
+
+      // Generate two random one-digit numbers
+      const num1 = Math.floor(Math.random() * 8) + 2;
+      const num2 = Math.floor(Math.random() * 8) + 2;
+      correctAnswer = num1 + num2;
+
+      // Update the question display
+      document.getElementById("question").textContent = `${num1} + ${num2} = ?`;
+    }
+
+    function checkAnswer(userAnswer) {
+      const resultDiv = document.getElementById("result");
+      if (userAnswer === correctAnswer) {
+        resultDiv.textContent = 'Correct!';
+      } else {
+        resultDiv.textContent = 'Wrong! The correct answer is ' + correctAnswer;
+      }
+      // Show the Next Question button
+      document.getElementById("next-btn").style.display = 'block';
+    }
+
+    function createAnswerButtons() {
+      const buttonsContainer = document.getElementById("buttons-container");
+      for (let i = 1; i <= 20; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.onclick = () => checkAnswer(i);
+        buttonsContainer.appendChild(button);
+      }
+    }
+
+    // Initialize the app
+    createAnswerButtons();
+    generateQuestion();
+  </script>
+</body>
+</html>
